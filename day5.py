@@ -1,3 +1,5 @@
+import time
+
 def find_lowest_location(input):
     lines = input.splitlines()
     spl = lines[0].split()
@@ -33,8 +35,8 @@ def find_lowest_location(input):
                 spl = line.split()
                 dst.append((int(spl[0]), int(spl[0]) + int(spl[2])))
                 src.append((int(spl[1]), int(spl[1]) + int(spl[2])))
-    print("PART 1 ANSWER")
-    print(min(seeds))
+    #print("PART 1 ANSWER")
+    #print(min(seeds))
 
 def find_lowest_among_seed_ranges(input):
     lines = input.splitlines()
@@ -56,7 +58,7 @@ def find_lowest_among_seed_ranges(input):
             pass
         elif line == "":
             if dst != [] and src != []:
-                print("Current Section: " + current + " | ========================")
+                #print("Current Section: " + current + " | ========================")
 
                 x = 0
                 while x < len(seeds):
@@ -142,15 +144,17 @@ def find_lowest_among_seed_ranges(input):
     alist = []
     for seed in seeds:
         alist.append(seed[0])
-    print("PART 2 ANSWER: " + str(min(alist)))
+    #print("PART 2 ANSWER: " + str(min(alist)))
 
     answer = 24261545
     if min(alist) != answer:
-        print(str(answer)+" != "+str(min(alist))+"! WRONG ANSWER!")
+        #print(str(answer)+" != "+str(min(alist))+"! WRONG ANSWER!")
         if answer in alist:
-            print("The answer list contains the correct answer, but it was not the minimum value!")
+            #print("The answer list contains the correct answer, but it was not the minimum value!")
+            pass
     else:
-        print(str(answer)+" == "+str(min(alist))+"! CORRECT ANSWER!")
+        pass
+        #print(str(answer)+" == "+str(min(alist))+"! CORRECT ANSWER!")
     
 
 if __name__ == "__main__":
@@ -375,7 +379,9 @@ humidity-to-location map:
 4168242936 2751566862 126724360
 
 """
+    before = time.perf_counter()
     # part 1
     find_lowest_location(input)
     # part 2 - would work with a supercomputer but the processing time just kills it
     find_lowest_among_seed_ranges(input)
+    print(f"Time: {time.perf_counter() - before:.6f} seconds")
