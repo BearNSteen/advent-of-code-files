@@ -66,9 +66,9 @@ def find_best_boat_time_one_race(input):
 
 if __name__ == "__main__":
     before = time.perf_counter()
-    input = """Time:        46     68     98     66
-    Distance:   358   1054   1807   1080"""
+    input = "input"
     # part 1
     find_best_boat_time(input)
+    # part 2
     find_best_boat_time_one_race(input)
     print(f"Time: {time.perf_counter() - before:.6f} seconds")
