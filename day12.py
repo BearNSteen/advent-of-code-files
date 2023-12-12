@@ -72,7 +72,6 @@ def check_recursive(lst, nums, path):
             new.remove(new[0])
         check_recursive(new, nums2, npath)
     elif lst[0] == "?":
-        group = []
         new[0] = "."
         check_recursive(new, nums, npath)
         new[0] = "#"
@@ -99,24 +98,23 @@ def part_one(input):
         path = []
         routes = check_recursive(lst, nums, path)
         result = len(routes)
+        """
         print("=================")
         print(result, line)
         print(lst)
         for route in routes:
             print(route)
         print("=================")
+        """
         
         total += result
+        print(total)
     
     print("P1: " + str(total))
     if total == 7939:
         print("P1 Correct!")
     else:
         print("P1 Incorrect!")
-    # 8610 too high
-    # 8129 too high
-    # 8108 too high
-
 
 def part_two(input):
     pass
