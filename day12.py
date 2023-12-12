@@ -82,6 +82,7 @@ def check_recursive(lst, nums, path):
 def part_one(input):
     lines = input.splitlines()
     total = 0
+    which = 1
     for line in lines:
         global routes
         routes = []
@@ -109,6 +110,7 @@ def part_one(input):
         
         total += result
         print(total)
+        which += 1
     
     print("P1: " + str(total))
     if total == 7939:
