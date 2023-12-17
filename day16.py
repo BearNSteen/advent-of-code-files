@@ -31,7 +31,7 @@ def light_trail(lines, start, direct):
                 keep.append(start)
 
             # visualization (not necessary)
-            if vis[start[0]][start[1]] not in ["<", ">", "^", "v"]:
+            """ if vis[start[0]][start[1]] not in ["<", ">", "^", "v"]:
                 if vis[start[0]][start[1]] == ".":
                     if new_dir == "l":
                         symb = "<"
@@ -41,7 +41,7 @@ def light_trail(lines, start, direct):
                         symb = "^"
                     elif new_dir == "d":
                         symb = "v"
-                    vis[start[0]][start[1]] = symb
+                    vis[start[0]][start[1]] = symb """
             
             # determine where to go next
             x, y = start[0], start[1]
@@ -55,8 +55,8 @@ def light_trail(lines, start, direct):
             elif new_dir == "r":
                 if curr == "\\":
                     combo = ((x+1, y), "d")
-                elif curr == "/" and x-1 >= 0:
-                    combo =((x-1, y), "u")
+                elif curr == "/":
+                    combo = ((x-1, y), "u")
                 else:
                     combo = ((x, y+1), new_dir)
             elif new_dir == "l":
