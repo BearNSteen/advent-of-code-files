@@ -127,60 +127,35 @@ def navigate(ins, step, x1, x2, m1, m2, a1, a2, s1, s2, nudge):
                 comparison = instruction[1]
                 num = instruction[2]
                 dest = instruction[3]
-                if dest != "R":
-                    pick, to_comp = pick_num(variable, comparison, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
-                    if comparison == ">":
-                        if to_comp > num:
-                            if dest != "A" and dest != "R":
-                                print(nudge + "Jumping from " + step + " to " + dest)
-                                navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
-                            elif dest == "A":
-                                n = (nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
-                                if n not in m:
-                                    add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
-                                    m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
-                        else:
-                            if pick == "x1":
-                                temp = nx1
-                                nx1 = num + 1
-                                ch, ch2 = nx1, nx2
-                            elif pick == "m1":
-                                temp = nm1
-                                nm1 = num + 1
-                                ch, ch2 = nm1, nm2
-                            elif pick == "a1":
-                                temp = na1
-                                na1 = num + 1
-                                ch, ch2 = na1, na2
-                            elif pick == "s1":
-                                temp = ns1
-                                ns1 = num + 1
-                                ch, ch2 = ns1, ns2
-                            if ch < ch2:
-                                if dest != "A" and dest != "R":
-                                    print(nudge + "Jumping from " + step + " to " + dest)
-                                    navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
-                                elif dest == "A":
-                                    n = (nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
-                                    if n not in m:
-                                        add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
-                                        m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
-                            if pick == "x1":
-                                nx1 = temp
-                                nx2 = num
-                            elif pick == "m1":
-                                nm1 = temp
-                                nm2 = num
-                            elif pick == "a1":
-                                na1 = temp
-                                na2 = num
-                            elif pick == "s1":
-                                ns1 = temp
-                                ns2 = num
-
-                                
+                pick, to_comp = pick_num(variable, comparison, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
+                if comparison == ">":
+                    if to_comp > num:
+                        if dest != "A" and dest != "R":
+                            print(nudge + "Jumping from " + step + " to " + dest)
+                            navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
+                        elif dest == "A":
+                            n = (nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
+                            if n not in m:
+                                add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
+                                m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
                     else:
-                        if to_comp < num:
+                        if pick == "x1":
+                            temp = nx1
+                            nx1 = num + 1
+                            ch, ch2 = nx1, nx2
+                        elif pick == "m1":
+                            temp = nm1
+                            nm1 = num + 1
+                            ch, ch2 = nm1, nm2
+                        elif pick == "a1":
+                            temp = na1
+                            na1 = num + 1
+                            ch, ch2 = na1, na2
+                        elif pick == "s1":
+                            temp = ns1
+                            ns1 = num + 1
+                            ch, ch2 = ns1, ns2
+                        if ch < ch2:
                             if dest != "A" and dest != "R":
                                 print(nudge + "Jumping from " + step + " to " + dest)
                                 navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
@@ -189,49 +164,73 @@ def navigate(ins, step, x1, x2, m1, m2, a1, a2, s1, s2, nudge):
                                 if n not in m:
                                     add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
                                     m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
-                        else:
-                            # if num == 500:
-                            # range1 == [0, 499]
-                            # range2 == [500, 4000]
+                        if pick == "x1":
+                            nx1 = temp
+                            nx2 = num
+                        elif pick == "m1":
+                            nm1 = temp
+                            nm2 = num
+                        elif pick == "a1":
+                            na1 = temp
+                            na2 = num
+                        elif pick == "s1":
+                            ns1 = temp
+                            ns2 = num
 
-                            if pick == "x2": 
-                                temp = nx2
-                                nx2 = num - 1
-                                ch, ch2 = nx1, nx2
-                            elif pick == "m2":
-                                temp = nm2
-                                nm2 = num - 1
-                                ch, ch2 = nm1, nm2
-                            elif pick == "a2":
-                                temp = na2
-                                na2 = num - 1
-                                ch, ch2 = na1, na2
-                            elif pick == "s2":
-                                temp = ns2
-                                ns2 = num - 1
-                                ch, ch2 = ns1, ns2
+                            
+                else:
+                    if to_comp < num:
+                        if dest != "A" and dest != "R":
+                            print(nudge + "Jumping from " + step + " to " + dest)
+                            navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
+                        elif dest == "A":
+                            n = (nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
+                            if n not in m:
+                                add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
+                                m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
+                    else:
+                        # if num == 500:
+                        # range1 == [0, 499]
+                        # range2 == [500, 4000]
 
-                            if ch < ch2:
-                                if dest != "A" and dest != "R":
-                                    print(nudge + "Jumping from " + step + " to " + dest)
-                                    navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
-                                elif dest == "A":
-                                    n = (nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
-                                    if n not in m:
-                                        add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
-                                        m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
-                            if pick == "x2":
-                                nx2 = temp
-                                nx1 = num
-                            elif pick == "m2":
-                                nm2 = temp
-                                nm1 = num
-                            elif pick == "a2":
-                                na2 = temp
-                                na1 = num
-                            elif pick == "s2":
-                                ns2 = temp
-                                ns1 = num
+                        if pick == "x2": 
+                            temp = nx2
+                            nx2 = num - 1
+                            ch, ch2 = nx1, nx2
+                        elif pick == "m2":
+                            temp = nm2
+                            nm2 = num - 1
+                            ch, ch2 = nm1, nm2
+                        elif pick == "a2":
+                            temp = na2
+                            na2 = num - 1
+                            ch, ch2 = na1, na2
+                        elif pick == "s2":
+                            temp = ns2
+                            ns2 = num - 1
+                            ch, ch2 = ns1, ns2
+
+                        if ch < ch2:
+                            if dest != "A" and dest != "R":
+                                print(nudge + "Jumping from " + step + " to " + dest)
+                                navigate(ins, dest, nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge+n_add)
+                            elif dest == "A":
+                                n = (nx1, nx2, nm1, nm2, na1, na2, ns1, ns2)
+                                if n not in m:
+                                    add_to_total(nx1, nx2, nm1, nm2, na1, na2, ns1, ns2, nudge)
+                                    m.append((nx1, nx2, nm1, nm2, na1, na2, ns1, ns2))
+                        if pick == "x2":
+                            nx2 = temp
+                            nx1 = num
+                        elif pick == "m2":
+                            nm2 = temp
+                            nm1 = num
+                        elif pick == "a2":
+                            na2 = temp
+                            na1 = num
+                        elif pick == "s2":
+                            ns2 = temp
+                            ns1 = num
 
             else:
                 if len(instruction) == 1:
@@ -289,7 +288,7 @@ def part_two(input):
     step = "in"
     navigate(ins, step, x1, x2, m1, m2, a1, a2, s1, s2, nudge)
 
-    sample = 1
+    sample = 0
 
     print("P2A: " + str(total))
     if sample == 1:
@@ -301,12 +300,20 @@ def part_two(input):
             print("Too high (sample)")
         elif total < 167409079868000:
             print("Too low (sample)")
+    else:
+        ans = 127675188176682
+        if total == ans:
+            print("Correct")
+        elif total > ans:
+            print("Too high")
+        elif total < ans:
+            print("Too low")
 
 
 if __name__ == "__main__":
     before = time.perf_counter()
 
-    sample = 1
+    sample = 0
 
     if sample == 1:
         input = Path("input_day19sample.txt").read_text()
