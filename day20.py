@@ -18,50 +18,64 @@ def process_beam(routes, on, cnj):
                 print(queue)
             #print(queue)
             src = queue[0][0]
-            a = routes[src]
-            effect = a[0]
-            targets = a[1]
-            cbeam = queue[0][1]
-            #print(src, effect, targets, cbeam)
+            if src in routes.keys():
+                a = routes[src]
+                effect = a[0]
+                targets = a[1]
+                cbeam = queue[0][1]
+                prev = queue[0][2]
+                #print(src, effect, targets, cbeam)
 
-            if effect == None:
-                for target in targets:
-                    low += 1
-                    queue.append((target, "low", src))
-
-            elif effect == "%" and cbeam == "low":
-                if on[src] == "off":
-                    on[src] = "on"
-                    for target in targets:
-                        high += 1
-                        queue.append((target, "high", src))
-                else:
-                    on[src] = "off"
+                if effect == None:
                     for target in targets:
                         low += 1
                         queue.append((target, "low", src))
 
-            elif effect == "&":
-                curr = cnj[src]
-                curr[input] = cbeam
-                send = "high"
-                for key in curr.keys():
-                    if curr[key] == "low":
+                elif effect == "%" and cbeam == "low":
+                    if on[src] == "off":
+                        on[src] = "on"
+                        for target in targets:
+                            high += 1
+                            queue.append((target, "high", src))
+                    else:
+                        on[src] = "off"
+                        for target in targets:
+                            low += 1
+                            queue.append((target, "low", src))
+
+                elif effect == "&":
+                    curr = cnj[src]
+                    for x in curr:
+                        if x[0] == prev:
+                            x[1] = cbeam
+                    send = "high"
+                    """ if to_send == 1000:
+                        print("curr:" + str(curr)) """
+                    for element in curr:
+                        if element[1] == "low":
+                            send = "low"
+                            break
+                    if send == "low":
+                        high += 1
+                        send = "high"
+                    else:
+                        low += 1
                         send = "low"
-                        break
-                if send == "low":
-                    low += 1
-                else:
-                    high += 1
-                for target in targets:
-                    queue.append((target, send, src))
+                    for target in targets:
+                        queue.append((target, send, src))
 
             queue.remove(queue[0])
+        low += 1
+        if to_send == 1000:
+            print(low, high)
+            print(on)
         to_send -= 1
         if on == on_check and cnj == cnj_check:
             cycle = 1000 - to_send
             until = 1000//cycle
             to_send = 1000 - cycle*until
+            low *= until
+            high *= until
             print("Cycle found of length " + str(cycle) + " setting to_send to value " + str(to_send))
     print(low, high)
     return low * high
@@ -73,21 +87,30 @@ def part_one(input):
     cnj = {}
     lines = input.splitlines()
     routes = {}
+    lt = []
     for line in lines:
         spl = line.split(' -> ')
-        src = spl[0]
+        first = spl[0]
+        src = first[1:]
+        op = first[0]
         targets = spl[1].split(', ')
-        if src != "broadcaster":
-            routes[src[1:]] = (src[0], targets)
-            if src[0] == "%":
-                on[src[1:]] = "off"
-            elif src[0] == "&":
-                memory = {}
-                for target in targets:
-                    memory[target] = "low"
-                cnj[src[1:]] = deepcopy(memory)
+        lt.append((src, targets))
+        if first != "broadcaster":
+            routes[src] = (op, targets)
+            if op == "%":
+                on[src] = "off"
         else:
             routes["broadcaster"] = (None, targets)
+    for group in lt:
+        src = group[0]
+        for x in group[1]:
+            if x in routes.keys():
+                if routes[x][0] == "&":
+                    if x not in cnj.keys():
+                        cnj[x] = [[src, "low"]]
+                    else:
+                        cnj[x].append([src, "low"])
+
 
     ans = process_beam(routes, on, cnj)
 
@@ -102,7 +125,7 @@ def part_two(input):
 if __name__ == "__main__":
     before = time.perf_counter()
     global sample
-    sample = 1
+    sample = 0
     if sample == 0:
         input = Path("input_day20.txt").read_text()
     else:
