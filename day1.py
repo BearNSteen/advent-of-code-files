@@ -1,3 +1,5 @@
+# Note: this day does not include the answer to part 1
+
 input = "input"
 
 split = input.splitlines()
