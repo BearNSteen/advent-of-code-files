@@ -1,43 +1,32 @@
-import time
-from pathlib import Path
+import tkinter as tk
+import random
 
-# note: this assessment answer passed the assessment
+# Create fish class
+class Fish:
+    def __init__(self, canvas, size, color):
+        self.canvas = canvas
+        # ... (initialize fish attributes)
 
-def decode(file):
-    input = Path(file).read_text()
-    lines = input.splitlines()
-    hashmap = {}
-    all_nums = []
+    def move(self):
+        # ... (update fish position)
+        self.canvas.move(self.id, self.x, self.y)
 
-    for entry in lines:
-        spl = entry.split(' ')
-        hashmap[spl[0]] = spl[1]
-        all_nums.append(int(spl[0]))
-    
-    all_nums.sort()
-    skip, skip_val = 0, 0
-    word_nums = []
-    for x in range(len(all_nums)):
-        if skip == 0:
-            word_nums.append(all_nums[x])
-            skip_val += 1
-            skip = skip_val
-        else:
-            skip -= 1
+# Create the fish tank GUI
+window = tk.Tk()
+canvas = tk.Canvas(window, width=600, height=400, bg="lightblue")
+canvas.pack()
 
-    sentence = ""
-    for val in word_nums:
-        v = str(val)
-        if sentence == "":
-            sentence += hashmap[v]
-        else:
-            sentence += " " + hashmap[v]
+# Create some fish
+fish_list = []
+for _ in range(5):
+    fish = Fish(canvas, random.randint(20, 50), random.choice(["red", "orange", "yellow"]))
+    fish_list.append(fish)
 
-    return sentence
-    
+# Animate the fish
+def animate():
+    for fish in fish_list:
+        fish.move()
+    window.after(50, animate)  # Call this function again after 50 milliseconds
 
-if __name__ == "__main__":
-    before = time.perf_counter()
-    # part 1
-    print(decode("coding_qual_input.txt"))
-    print(f"Time: {time.perf_counter() - before:.6f} seconds")
+animate()  # Start the animation
+window.mainloop()
